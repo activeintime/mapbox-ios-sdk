@@ -2081,13 +2081,11 @@
 
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, [[UIScreen mainScreen] scale]);
 
-    for (RMMapTiledLayerView *tiledLayerView in _tiledLayersSuperview.subviews)
-        tiledLayerView.useSnapshotRenderer = YES;
+    [self prepareForSnapshot];
 
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
 
-    for (RMMapTiledLayerView *tiledLayerView in _tiledLayersSuperview.subviews)
-        tiledLayerView.useSnapshotRenderer = NO;
+    [self cleanupSnapshot];
 
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 
@@ -2096,6 +2094,18 @@
     _overlayView.hidden = NO;
 
     return image;
+}
+
+- (void)cleanupSnapshot
+{
+    for (RMMapTiledLayerView *tiledLayerView in _tiledLayersSuperview.subviews)
+        tiledLayerView.useSnapshotRenderer = NO;
+}
+
+- (void)prepareForSnapshot
+{
+    for (RMMapTiledLayerView *tiledLayerView in _tiledLayersSuperview.subviews)
+        tiledLayerView.useSnapshotRenderer = YES;
 }
 
 - (UIImage *)takeSnapshot

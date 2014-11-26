@@ -288,7 +288,11 @@ typedef enum : NSUInteger {
 
 /** @name Capturing Snapshots of the Map View */
 
-/** Take a snapshot of the map view. 
+- (void)cleanupSnapshot;
+
+- (void)prepareForSnapshot;
+
+/** Take a snapshot of the map view.
 *
 *   By default, the overlay containing any visible annotations is also captured.
 *   @return An image depicting the map view. */
@@ -298,6 +302,8 @@ typedef enum : NSUInteger {
 *   @param includeOverlay Whether to include the overlay containing any visible annotations. 
 *   @return An image depicting the map view. */
 - (UIImage *)takeSnapshotAndIncludeOverlay:(BOOL)includeOverlay;
+
+
 
 #pragma mark - Annotations
 
